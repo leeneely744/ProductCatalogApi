@@ -1,19 +1,24 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
+version: '3.4'
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["ProductCatalogApi/ProductCatalogApi.csproj", "ProductCatalogApi/"]
-RUN dotnet restore "ProductCatalogApi/ProductCatalogApi.csproj"
-COPY . .
-WORKDIR "/src/ProductCatalogApi"
-RUN dotnet build "ProductCatalogApi.csproj" -c Release -o /app/build
+services:
+  product-catalog-api:
+    image: productcatalogapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Database=productcatalog;Username=postgres;Password=yourpassword
 
-FROM build AS publish
-RUN dotnet publish "ProductCatalogApi.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ProductCatalogApi.dll"]
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: productcatalog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
