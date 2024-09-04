@@ -29,7 +29,13 @@ public class AuthController : ControllerBase
 
     private string GenerateJwtToken()
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var key = _configuration["Jwt:Key"];
+        if (string.IsNullOrEmpty(key))
+        {
+            throw new InvalidOperationException("JWT Key is not configured.");
+        }
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
@@ -51,6 +57,6 @@ public class AuthController : ControllerBase
 
 public class UserLogin
 {
-    public string Username { get; set; }
-    public string Password { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }
