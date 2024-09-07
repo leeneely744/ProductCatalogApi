@@ -1,13 +1,13 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-preview AS build
 WORKDIR /src
-COPY ["ProductCatalogApi/ProductCatalogApi.csproj", "ProductCatalogApi/"]
-RUN dotnet restore "ProductCatalogApi/ProductCatalogApi.csproj"
+COPY ProductCatalogApi.csproj .
+RUN dotnet restore "ProductCatalogApi.csproj"
 COPY . .
-WORKDIR "/src/ProductCatalogApi"
+WORKDIR "/src"
 RUN dotnet build "ProductCatalogApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
