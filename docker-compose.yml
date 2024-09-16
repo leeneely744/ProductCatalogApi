@@ -11,6 +11,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Database=productcatalog;Username=postgres;Password=yourpassword
+    command: >
+      sh -c "dotnet ef database update && dotnet ProductCatalogApi.dll"
 
   db:
     image: postgres
