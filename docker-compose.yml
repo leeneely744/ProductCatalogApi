@@ -1,3 +1,5 @@
+version: '3.4'
+
 services:
   product-catalog-api:
     image: productcatalogapi
@@ -12,7 +14,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Database=productcatalog;Username=postgres;Password=yourpassword
     command: >
-      sh -c "dotnet ef database update && dotnet ProductCatalogApi.dll"
+      /bin/sh -c "dotnet ef database update && dotnet ProductCatalogApi.dll"
 
   db:
     image: postgres

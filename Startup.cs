@@ -50,7 +50,7 @@ namespace ProductCatalogApi
                     Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' [space] and then your token in the text input below.\n\nExample: \"Bearer 12345abcdef\"",
+                    Description = "/api/Auth/login にて取得したJWTを入力してください。",
                     Reference = new OpenApiReference
                     {
                         Type = ReferenceType.SecurityScheme,

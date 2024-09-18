@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ProductCatalogApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240917133000_RenameProductsTable")]
-    partial class RenameProductsTable
+    [Migration("20240918133807_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
